@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="projectsGSLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tb_Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="datetime" Nullable="false" />
+          <Property Name="endDate" Type="datetime" Nullable="false" />
+          <Property Name="credits" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tb_User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'projectsGSL.dbo.tb_UserProject' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tb_UserProject">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="projectId" />
+            <PropertyRef Name="isActive" />
+            <PropertyRef Name="assignedDate" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="projectId" Type="int" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="assignedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'projectsGSL.dbo.viewUserProjects' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="viewUserProjects">
+          <Key>
+            <PropertyRef Name="projectId" />
+            <PropertyRef Name="startDate" />
+            <PropertyRef Name="endDate" />
+            <PropertyRef Name="credits" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="projectId" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="timestart" Type="varchar" MaxLength="10" />
+          <Property Name="endDate" Type="varchar" MaxLength="38" Nullable="false" />
+          <Property Name="credits" Type="int" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tb_UserPr__proje__3A81B327">
+          <End Role="tb_Project" Type="Self.tb_Project" Multiplicity="1" />
+          <End Role="tb_UserProject" Type="Self.tb_UserProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_UserProject">
+              <PropertyRef Name="projectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_UserPr__userI__3B75D760">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+          <End Role="tb_UserProject" Type="Self.tb_UserProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_UserProject">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="projectsGSLModelStoreContainer">
+          <EntitySet Name="tb_Project" EntityType="Self.tb_Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_User" EntityType="Self.tb_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tb_UserProject" EntityType="Self.tb_UserProject" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tb_UserProject].[userId] AS [userId], 
+    [tb_UserProject].[projectId] AS [projectId], 
+    [tb_UserProject].[isActive] AS [isActive], 
+    [tb_UserProject].[assignedDate] AS [assignedDate]
+    FROM [dbo].[tb_UserProject] AS [tb_UserProject]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="viewUserProjects" EntityType="Self.viewUserProjects" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [viewUserProjects].[projectId] AS [projectId], 
+    [viewUserProjects].[startDate] AS [startDate], 
+    [viewUserProjects].[timestart] AS [timestart], 
+    [viewUserProjects].[endDate] AS [endDate], 
+    [viewUserProjects].[credits] AS [credits], 
+    [viewUserProjects].[status] AS [status]
+    FROM [dbo].[viewUserProjects] AS [viewUserProjects]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__tb_UserPr__proje__3A81B327" Association="Self.FK__tb_UserPr__proje__3A81B327">
+            <End Role="tb_Project" EntitySet="tb_Project" />
+            <End Role="tb_UserProject" EntitySet="tb_UserProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_UserPr__userI__3B75D760" Association="Self.FK__tb_UserPr__userI__3B75D760">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_UserProject" EntitySet="tb_UserProject" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="projectsGSLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tb_Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="endDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="credits" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tb_UserProject" Relationship="Self.FK__tb_UserPr__proje__3A81B327" FromRole="tb_Project" ToRole="tb_UserProject" />
+        </EntityType>
+        <EntityType Name="tb_User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tb_UserProject" Relationship="Self.FK__tb_UserPr__userI__3B75D760" FromRole="tb_User" ToRole="tb_UserProject" />
+        </EntityType>
+        <EntityType Name="tb_UserProject">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="projectId" />
+            <PropertyRef Name="isActive" />
+            <PropertyRef Name="assignedDate" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="projectId" Type="Int32" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="assignedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tb_Project" Relationship="Self.FK__tb_UserPr__proje__3A81B327" FromRole="tb_UserProject" ToRole="tb_Project" />
+          <NavigationProperty Name="tb_User" Relationship="Self.FK__tb_UserPr__userI__3B75D760" FromRole="tb_UserProject" ToRole="tb_User" />
+        </EntityType>
+        <Association Name="FK__tb_UserPr__proje__3A81B327">
+          <End Role="tb_Project" Type="Self.tb_Project" Multiplicity="1" />
+          <End Role="tb_UserProject" Type="Self.tb_UserProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_UserProject">
+              <PropertyRef Name="projectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tb_UserPr__userI__3B75D760">
+          <End Role="tb_User" Type="Self.tb_User" Multiplicity="1" />
+          <End Role="tb_UserProject" Type="Self.tb_UserProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tb_User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tb_UserProject">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="projectsGSLEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="tb_Project" EntityType="Self.tb_Project" />
+          <EntitySet Name="tb_User" EntityType="Self.tb_User" />
+          <EntitySet Name="tb_UserProject" EntityType="Self.tb_UserProject" />
+          <AssociationSet Name="FK__tb_UserPr__proje__3A81B327" Association="Self.FK__tb_UserPr__proje__3A81B327">
+            <End Role="tb_Project" EntitySet="tb_Project" />
+            <End Role="tb_UserProject" EntitySet="tb_UserProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tb_UserPr__userI__3B75D760" Association="Self.FK__tb_UserPr__userI__3B75D760">
+            <End Role="tb_User" EntitySet="tb_User" />
+            <End Role="tb_UserProject" EntitySet="tb_UserProject" />
+          </AssociationSet>
+          <EntitySet Name="viewUserProjects" EntityType="projectsGSLModel.viewUserProjects" />
+        </EntityContainer>
+        <EntityType Name="viewUserProjects">
+          <Key>
+            <PropertyRef Name="projectId" />
+            <PropertyRef Name="startDate" />
+            <PropertyRef Name="endDate" />
+            <PropertyRef Name="credits" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="projectId" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="String" Nullable="false" MaxLength="38" FixedLength="false" Unicode="false" />
+          <Property Name="timestart" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="endDate" Type="String" Nullable="false" MaxLength="38" FixedLength="false" Unicode="false" />
+          <Property Name="credits" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="projectsGSLModelStoreContainer" CdmEntityContainer="projectsGSLEntities">
+          <EntitySetMapping Name="tb_Project">
+            <EntityTypeMapping TypeName="projectsGSLModel.tb_Project">
+              <MappingFragment StoreEntitySet="tb_Project">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="credits" ColumnName="credits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_User">
+            <EntityTypeMapping TypeName="projectsGSLModel.tb_User">
+              <MappingFragment StoreEntitySet="tb_User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_UserProject">
+            <EntityTypeMapping TypeName="projectsGSLModel.tb_UserProject">
+              <MappingFragment StoreEntitySet="tb_UserProject">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="projectId" ColumnName="projectId" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="assignedDate" ColumnName="assignedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="viewUserProjects">
+            <EntityTypeMapping TypeName="projectsGSLModel.viewUserProjects">
+              <MappingFragment StoreEntitySet="viewUserProjects">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="credits" ColumnName="credits" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="timestart" ColumnName="timestart" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="projectId" ColumnName="projectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

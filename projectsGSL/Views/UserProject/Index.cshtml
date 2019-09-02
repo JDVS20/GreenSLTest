@@ -1,0 +1,65 @@
+﻿@using projectsGSL.Models
+
+@{
+    ViewBag.Title = "User Projects GSL";
+    var vwdataUser = ViewBag.dataUser;
+    var vwdataUserProjects = ViewBag.dataUserProjects;
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Welcome to projects GSL</h2>
+        <br />
+        <br />
+    </div>
+</div>
+
+<span class="form-group" style="font-size:20px">Username</span>
+<select name="number" id="dpUserList" class="btn btn-primary">
+    <option value="null">--</option>
+    @foreach (var item in vwdataUser)
+    {
+        <option value=@item.id>@item.firstName @item.lastName</option>
+    }
+</select>
+<br />
+<br />
+
+<table id="grid-basic" class="table table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th data-column-id="id" data-type="numeric">Project ID</th>
+            <th data-column-id="startDate">Start Date</th>
+            <th data-column-id="timeStart">Time to Start</th>
+            <th data-column-id="endDate">End Date</th>
+            <th data-column-id="credits">Credits</th>
+            <th data-column-id="status">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in vwdataUserProjects)
+        {
+            <tr>
+                <td>
+                    @item.projectId
+                </td>
+                <td>
+                    @item.startDate
+                </td>
+                <td>
+                    @item.timeStart
+                </td>
+                <td>
+                    @item.endDate
+                </td>
+                <td>
+                    @item.credits
+                </td>
+                <td>
+                    @item.status
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
